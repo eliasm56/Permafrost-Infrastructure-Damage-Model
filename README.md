@@ -247,14 +247,3 @@ python damage_model.py
 python damage_model_decomposition.py
 ```
 
----
-
-# 8. Units
-
-- Area: m²
-- Cost: PPP USD 2024
-- Loss: fraction (0–1)
-
----
-
-End of README.
