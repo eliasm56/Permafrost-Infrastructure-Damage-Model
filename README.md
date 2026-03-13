@@ -1,237 +1,238 @@
+# Arctic Permafrost Building Damage Model
 
-# Arctic Permafrost Bearing Capacity Damage Model
+This repository contains modeling frameworks for estimating **mid-century building damages caused by permafrost degradation across the Arctic circumpolar region**.
 
-This repository contains two modeling frameworks for estimating Arctic building damages 
-from projected bearing capacity (BC) loss under mid-century climate scenarios.
+The models combine:
+
+- High-resolution **Arctic building datasets (HABITAT + OpenStreetMap)**
+- **Permafrost geotechnical hazard maps**
+- **Region-specific building replacement costs**
+- **Monte Carlo uncertainty propagation**
+
+The workflow was developed to support the study:
+
+**Refined modelling of Arctic circumpolar building stock increases estimated mid-century permafrost degradation damages.**
 
 ---
 
-# 1. Model Components
+# Overview
 
-## 1.1 Monte Carlo Uncertainty Model
+Permafrost thaw can reduce the **bearing capacity of building foundations**, resulting in structural damage or full replacement.
+
+This repository provides two complementary modeling frameworks:
+
+| Model | Purpose |
+|---|---|
+| **Monte Carlo Damage Model** | Estimate building damages with full uncertainty propagation |
+| **Stepwise Decomposition Model** | Quantify how improved exposure datasets amplify damage estimates |
+
+Both models use **continuous bearing-capacity loss hazard maps derived from CMIP6 climate projections**.
+
+---
+
+# Repository Structure
+
+```
+├── damage_model.py
+├── damage_model_decomposition.py
+├── README.md
+│
+├── data/
+│   ├── replacement_costs/
+│   └── hazard_maps/
+│
+├── outputs/
+│   ├── damage_results/
+│   └── decomposition_results/
+│
+└── figures/
+```
+
+Note: The **building inventory dataset is archived externally** (see Data section below).
+
+---
+
+# Model 1: Monte Carlo Damage Model
 
 Script:
+
 ```
 damage_model.py
 ```
 
-Features:
-- Full Monte Carlo uncertainty propagation
-- One-at-a-time (OAT) sensitivity modes
-- Hazard-pooled summaries (mean / min / max)
-- Residential and non-residential damage splits
+This script estimates **building damages from projected permafrost bearing-capacity loss** while propagating multiple uncertainty sources.
+
+### Key features
+
+- Monte Carlo simulation
+- Continuous hazard sampling from **netCDF BC loss maps**
+- Multiple uncertainty sources
+- Scenario-based analysis
+- Regional and country-level outputs
+
+### Uncertainty sources
+
+The model propagates uncertainty in:
+
+- Engineering **safety factors**
+- **Permafrost extent** beneath buildings
+- **Building detection completeness**
+- **Occupancy classification errors**
+- **Building height / story estimation**
+- Optional **hazard and exposure scaling**
+
+Run modes include:
+
+```
+ALL
+FS_ONLY
+EXTENT_ONLY
+DETECTION_ONLY
+TYPE_ONLY
+STORIES_ONLY
+```
+
+Each run produces **mean, minimum, and maximum damage estimates across hazard maps**.
+
+### Output files
+
+Example outputs:
+
+```
+BC_risk_analysis_v3_uncert_netcdf__ALL_mean.csv
+BC_risk_analysis_v3_uncert_netcdf__ALL_min.csv
+BC_risk_analysis_v3_uncert_netcdf__ALL_max.csv
+```
+
+Optional outputs include **Monte Carlo draw-level results** for plotting distributions.
 
 ---
 
-## 1.2 Stepwise Decomposition Model
+# Model 2: Exposure Decomposition Model
 
 Script:
+
 ```
 damage_model_decomposition.py
 ```
 
-Features:
-- Incremental exposure refinement blocks (B1–B4)
-- Consistent FS sampling across blocks
-- Designed for damage amplification attribution
+This model evaluates how **progressively improved building exposure datasets change damage estimates**.
 
----
-
-# 2. Required Inputs
-
-## 2.1 Hazard Data (netCDF)
-
-Set:
-```
-HAZARD_NC_DIR
-```
-
-Each `.nc` file must:
-
-- Contain variable: `bc_change`
-- Contain coordinates: `lon`, `lat`
-- Include scenario identifier in filename:
-  - `ssp245`
-  - `ssp585`
-
-BC values must represent fractional loss (0–1).
-Percent values (0–100) are automatically scaled.
-Negative values are flipped if interpreted as decreases.
-
----
-
-## 2.2 Building Inventory (GeoPackage)
-
-Set:
-```
-BUILDINGS_GPKG
-BUILDINGS_LAYER = "buildings"
-```
-
-### Required Columns
-
-| Column        | Description                                  |
-|--------------|----------------------------------------------|
-| shapeGroup   | Country code (USA, CAN, RUS)                |
-| shapeName    | Region name                                  |
-| Source       | OSM or HABITAT                               |
-| Value        | 1 = residential                              |
-| Shape_Area   | Footprint area (m²)                          |
-| EXTENT       | C / D / S / I damage class                   |
-| ntl_status   | ACTIVE / not                                 |
-| num_stories  | Optional for floor area expansion             |
-
----
-
-## 2.3 Cost Inventory (CSV)
-
-Set:
-```
-COST_CSV
-```
-
-### Required Columns
-
-| Column                    | Description |
-|---------------------------|-------------|
-| shapeGroup                | Country code |
-| shapeName                 | Region name |
-| RES_COST_PER_AREA         | Residential replacement cost per m² |
-| NONRES_COST_PER_AREA      | Non-residential replacement cost per m² |
-| COMBINED_COST_PER_AREA    | Used in decomposition blocks B1–B2 |
-
-All costs are treated as nominal and converted to PPP USD 2024 using:
-
-- `GDP_DEFLATOR_2021_TO_2024` (uncertainty model)
-- `PPP_INFLATION_FACTOR_2024` (decomposition model)
-
----
-
-# 3. Core Parameters
-
-## 3.1 Scenario Matching
-
-Hazard files are matched using:
-
-- SSP245
-- SSP585
-
----
-
-## 3.2 Safety Factor (FS)
-
-Ranges:
-
-- USA / CAN: 2.5–3.0
-- RUS: 1.05–1.56
-
-Threshold is computed as:
-
-```
-threshold = 1 − (1 / FS)
-```
-
----
-
-## 3.3 EXTENT Multipliers
-
-| EXTENT | Multiplier Range |
-|--------|------------------|
-| C      | 0.90–1.00 |
-| D      | 0.50–0.90 |
-| S      | 0.10–0.50 |
-| I      | 0.00 |
-
----
-
-# 4. Monte Carlo Uncertainty Configuration
-
-Defined in:
-
-```
-MODES_TO_RUN
-MODE_FLAGS
-MC_DRAWS_BY_MODE
-```
-
-Available modes:
-
-- ALL
-- FS_ONLY
-- EXTENT_ONLY
-- DETECTION_ONLY
-- TYPE_ONLY
-- STORIES_ONLY
-
-Key uncertainty parameters:
-
-- FS_RANGES
-- EXTENT_BOUNDS
-- HABITAT_DET_F1
-- TYPE_F1_RES
-- TYPE_F1_NONRES
-- DELTA_STORY_VALUES
-- HAZARD_SIGMA
-- AREA_SIGMA
-
-Randomness is controlled via:
-
-```
-RANDOM_SEED
-```
-
----
-
-# 5. Decomposition Blocks
-
-Defined in:
-
-```
-MODE_CFG
-```
+### Exposure refinement blocks
 
 | Block | Description |
-|-------|------------|
-| B1 | OSM only, 2D, combined region cost |
-| B2 | OSM + HABITAT, 2D, combined region cost |
-| B3 | Add occupancy-specific costs |
-| B4 | Add floor area expansion |
+|---|---|
+| **B1** | OSM buildings only, 2D footprint area |
+| **B2** | OSM + HABITAT buildings |
+| **B3** | Occupancy-specific replacement costs |
+| **B4** | Residential floor area (stories) instead of footprint |
 
-All blocks use identical FS draws for comparability.
-
----
-
-# 6. Outputs
-
-For each mode:
-
-```
-<OUT_BASE>__<MODE>_mean.csv
-<OUT_BASE>__<MODE>_min.csv
-<OUT_BASE>__<MODE>_max.csv
-```
-
-Optional per-draw outputs:
-
-```
-<OUT_BASE>__<MODE>_MC_country_draws.csv
-<OUT_BASE>__<MODE>_MC_region_draws.csv
-```
-
-Outputs include:
-
-- Total area (m²)
-- Total replacement cost (PPP USD 2024)
-- Damaged area
-- Damaged cost
-- Residential / non-residential splits
-- Proportion damaged
+This experiment isolates how improvements in **geospatial infrastructure data** affect economic risk estimates.
 
 ---
 
-# 7. Running the Model
+# Data
 
-Edit configuration variables at the top of each script:
+The modeling workflow relies on three primary datasets.
+
+---
+
+## 1. Arctic building inventory
+
+The Arctic building dataset used in this study is publicly archived at the **Arctic Data Center**.
+
+Dataset:
+
+https://arcticdata.io/catalog/view/doi%3A10.18739%2FA21R6N311
+
+This dataset contains the **HABITAT-OSM circumpolar building inventory**, which combines:
+
+- Deep learning building detections from high-resolution satellite imagery (HABITAT)
+- Manually digitized OpenStreetMap building footprints
+
+Attributes include:
+
+- Building footprint area
+- Occupancy classification
+- Estimated number of stories
+- Administrative region
+- Nighttime-lights activity status
+- Permafrost zone classification
+
+Example file used in the model:
+
+```
+HABITAT_OSM_bldg_type_activity_topo_with_stories.gpkg
+```
+
+Users should download this dataset from the Arctic Data Center and update the file path in the scripts accordingly.
+
+---
+
+## 2. Permafrost hazard maps
+
+NetCDF grids representing projected **bearing-capacity loss**. These bearing capacity maps are part of ongoing U.S. National Science Foundation (NSF) Grants RISE-2019691 and 2022504 and will not be made pubicly available until the end of those projects (fall 2026). However, they can be made available upon reasonable request from principal investigator Dmitry Streletskiy (strelets@gwu.edu).
+
+Example variable:
+
+```
+bc_change
+```
+
+Hazard maps are derived from **CMIP6 climate model simulations** and permafrost geotechnical modeling.
+
+Supported scenarios:
+
+```
+SSP2-4.5
+SSP5-8.5
+```
+
+---
+
+## 3. Replacement cost inventory
+
+CSV file containing **regional building replacement costs**.
+
+Example columns:
+
+```
+shapeGroup
+shapeName
+RES_COST_PER_AREA
+NONRES_COST_PER_AREA
+COMBINED_COST_PER_AREA
+```
+
+Costs are converted to **PPP USD 2024** during the analysis.
+
+---
+
+# Running the Models
+
+## 1. Install dependencies
+
+Typical environment:
+
+```
+python >= 3.9
+numpy
+pandas
+geopandas
+xarray
+```
+
+Example:
+
+```
+pip install numpy pandas geopandas xarray
+```
+
+---
+
+## 2. Configure file paths
+
+Both scripts contain configuration sections defining:
 
 ```
 HAZARD_NC_DIR
@@ -240,10 +241,66 @@ COST_CSV
 OUT_DIR
 ```
 
-Then execute:
+Update these paths to match your local data locations.
+
+---
+
+## 3. Run the model
+
+### Monte Carlo uncertainty model
 
 ```
 python damage_model.py
+```
+
+### Exposure decomposition experiment
+
+```
 python damage_model_decomposition.py
 ```
 
+---
+
+# Output Structure
+
+Outputs are written as CSV tables summarizing damages by:
+
+- Scenario
+- Country
+- Administrative region
+- Data source
+- Building activity status
+
+Metrics include:
+
+```
+total_area
+total_cost
+damaged_area
+damaged_cost
+```
+
+All monetary values are reported in **PPP USD 2024**.
+
+---
+
+# Citation
+
+If you use this repository or the building dataset, please cite:
+
+**Manos et al.**  
+Refined modelling of Arctic circumpolar building stock increases estimated mid-century permafrost degradation damages.
+
+Building dataset:
+
+Manos, E. et al.  
+**HABITAT-OSM Arctic building inventory**  
+Arctic Data Center  
+https://arcticdata.io/catalog/view/doi%3A10.18739%2FA21R6N311
+
+---
+
+# License
+
+This repository is released under an open research license.  
+See `LICENSE` for details.
