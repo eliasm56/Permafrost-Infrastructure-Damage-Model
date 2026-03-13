@@ -156,7 +156,6 @@ Attributes include:
 - Occupancy classification
 - Estimated number of stories
 - Administrative region
-- Nighttime-lights activity status
 - Permafrost zone classification
 
 Example file used in the model:
