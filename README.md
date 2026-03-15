@@ -178,7 +178,7 @@ The datasets can currently be obtained upon reasonable request from:
 **Dmitry Streletskiy**  
 strelets@gwu.edu
 
-To ensure reproducibility, ```data/building_bc_change_by_hazard_map.csv```contains the building-level pile bearing capacity change values calculated through the permafrost geotechnical model (Streletskiy et al. 2012) forced by air temperature and precipitation from the following global climate models:
+To ensure reproducibility, ```data/building_bc_change_by_hazard_map.zip``` can be unzipped to retrieve the CSV file containing the building-level pile bearing capacity change values calculated through the permafrost geotechnical model (Streletskiy et al. 2012) forced by air temperature and precipitation from the following global climate models:
 
 1) Alfred Wegener Institute—Climate Model—Medium Resolution (AWI-CM-1-1-MR)
 2) Community Earth System Model Version 2—Whole Atmosphere Community Climate Model (CESM2-WACCM)
