@@ -40,20 +40,19 @@ Permafrost-Infrastructure-Damage-Model
 ├── README.md
 │
 ├── data/
-│   ├── replacement_costs/
-│   └── hazard_maps/
+│   ├── ACPR_Adm1_cost_inventory.csv
+│   └── building_bc_change_by_hazard_map.zip
 │
 ├── outputs/
 │   ├── damage_results/
 │   └── decomposition_results/
 │
 ├── figs/
-│   ├── uncertainty_sensitivity_plots.py
-│   ├── damage_amplification_map.py
-│   ├── decomposition_waterfall_plot.py
-│   └── README.md
-│
-└── figures/
+    ├── uncertainty_sensitivity_plots.py
+    ├── damage_amplification_map.py
+    ├── decomposition_waterfall_plot.py
+    └── README.md│
+
 ```
 
 Note: The **building inventory dataset is archived externally** (see Data section below).
@@ -156,12 +155,6 @@ This dataset contains the **HABITAT-OSM circumpolar building inventory**, combin
 - Deep learning building detections from high-resolution satellite imagery (HABITAT)
 - Manually digitized OpenStreetMap building footprints
 
-Primary input file used by the model:
-
-```
-HABITAT_OSM_bldg_type_activity_topo_with_stories.gpkg
-```
-
 Attributes include:
 
 - Building footprint area  
@@ -185,24 +178,33 @@ The datasets can currently be obtained upon reasonable request from:
 **Dmitry Streletskiy**  
 strelets@gwu.edu
 
-Hazard maps contain the variable:
+To ensure reproducibility, ```data/building_bc_change_by_hazard_map.csv```contains the building-level pile bearing capacity change values calculated through the permafrost geotechnical model (Streletskiy et al. 2012) forced by air temperature and precipitation from the following global climate models:
 
-```
-bc_change
-```
+1) Alfred Wegener Institute—Climate Model—Medium Resolution (AWI-CM-1-1-MR)
+2) Community Earth System Model Version 2—Whole Atmosphere Community Climate Model (CESM2-WACCM)
+3) Max Planck Institute Earth Systems Model—High Resolution (MPI-ESM1-2-HR)
+4) Norwegian Earth System Model—Medium Resolution Model (NorESM2-MM).  
 
-Supported climate scenarios:
+The following fields contain the bearing capacity change (0-1) between 2015-2024 and 2055-2064 analyzed under the SSP2-4.5 scenario 
+bc_diff_ssp245_AWI_CM_1_1_MR_2055_2064_2015_2024_nomask	
+bc_diff_ssp245_MPI_ESM1_2_HR_2055_2064_2015_2024_nomask	
+bc_diff_ssp245_NorESM2_MM_2055_2064_2015_2024_nomask	
+bc_diff_ssp245_CESM2_WACCM_2055_2064_2015_2024	
 
-```
-SSP2-4.5
-SSP5-8.5
-```
+The following fields contain the bearing capacity change (0-1) between 2015-2024 and 2055-2064 analyzed under the SSP5-8.5 scenario 
+bc_diff_ssp585_AWI_CM_1_1_MR_2055_2064_2015_2024_nomask	
+bc_diff_ssp585_MPI_ESM1_2_HR_2055_2064_2015_2024_nomask	
+bc_diff_ssp585_NorESM2_MM_2055_2064_2015_2024_nomask	
+bc_diff_ssp585_CESM2_WACCM_2055_2064_2015_2024
+
+Using the bldg_id field, a table join can be performed to merge these bearing capacity change values to their respective building footprints in the GeoPackage file "HABITAT_OSM_bldgs_ADC.gpkg" downloadable from the Arctic Data Center (https://arcticdata.io/catalog/view/doi%3A10.18739%2FA21R6N311). 
+
 
 ---
 
 ## Replacement cost inventory
 
-The replacement cost dataset contains regional estimates of building replacement cost per unit area.
+The replacement cost dataset contains regional estimates of building replacement cost per unit area. This is downloadable as ```data/ACPR_Adm1_cost_inventory.csv```.
 
 Fields include:
 
