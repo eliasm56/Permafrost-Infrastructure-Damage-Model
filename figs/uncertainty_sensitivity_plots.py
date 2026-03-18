@@ -24,8 +24,8 @@ from matplotlib.lines import Line2D
 # =========================================================
 # CONFIG
 # =========================================================
-CSV_DIR = r"D:\PhD_main\chapter_2\outputs\damage_model_w_uncertainty"
-OUT_FIG_DIR = r"/figs/mc_uncertainty"
+CSV_DIR = "outputs/damage_results"
+OUT_FIG_DIR = "figs"
 
 # Which metric exists in *_MC_country_draws.csv (TOTAL)
 DRAW_METRIC = "dam_cost_usd2024"   # or "dam_area_m2"
