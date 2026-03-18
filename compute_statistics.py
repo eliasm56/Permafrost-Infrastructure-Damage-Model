@@ -20,7 +20,7 @@ import pandas as pd
 # =========================================================
 INPUT_CSV = "outputs/BC_risk_analysis_v3_uncert_fields__ALL_MC_region_draws.csv"
 
-OUT_DIR = "PATH_TO_OUTPUT_DIRECTORY"
+OUT_DIR = "outputs"
 OUT_CIRCUMPOLAR_CSV = os.path.join(OUT_DIR, "summary_circumpolar.csv")
 OUT_MACRO_CSV = os.path.join(OUT_DIR, "summary_macro.csv")
 
