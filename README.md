@@ -35,6 +35,7 @@ Both models use **continuous bearing-capacity loss hazard maps derived from CMIP
 ```
 Permafrost-Infrastructure-Damage-Model
 │
+├── compute_statistics.py
 ├── damage_model.py
 ├── damage_model_decomposition.py
 ├── README.md
@@ -72,7 +73,6 @@ This script estimates **building damages from projected permafrost bearing-capac
 ## Key features
 
 - Monte Carlo simulation  
-- Continuous hazard sampling from **netCDF BC loss maps**  
 - Multiple uncertainty sources  
 - Scenario-based analysis  
 - Regional and country-level outputs  
