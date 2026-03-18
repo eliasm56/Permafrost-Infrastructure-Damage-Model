@@ -96,8 +96,8 @@ UNIT_LABEL_PCT = "Increase in median damages (%)"
 # =========================
 # I/O
 # =========================
-FILE_B1 = "outputs/BC_decomposition_v1__B1_OSM_2D_COMBINEDCOST_MC_region_draws.csv"
-FILE_B4 = "outputs/BC_decomposition_v1__B4_ADD_FLOORAREA_MC_region_draws.csv"
+FILE_B1 = "outputs/decomposition_results/BC_decomposition_v1__B1_OSM_2D_COMBINEDCOST_MC_region_draws.csv"
+FILE_B4 = "outputs/decomposition_results/BC_decomposition_v1__B4_ADD_FLOORAREA_MC_region_draws.csv"
 
 REGIONS_SHP = "data/regional_boundaries.shp"
 
