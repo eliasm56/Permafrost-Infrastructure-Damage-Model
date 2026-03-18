@@ -64,7 +64,7 @@ OCEAN_FACE   = "#e6f2ff"
 LAND_FACE    = "#f0f0f0"
 COAST_EDGE   = "dimgray"
 COAST_LW     = 0.3
-ADM0_PATH    = r"D:\boundaries\geoBoundariesCGAZ_ADM0.shp"  # set None to disable
+ADM0_PATH    = "data/geoBoundariesCGAZ_ADM0.shp"  # set None to disable
 
 # Polar graticule
 GRATICULE_ON         = True
@@ -96,12 +96,12 @@ UNIT_LABEL_PCT = "Increase in median damages (%)"
 # =========================
 # I/O
 # =========================
-FILE_B1 = r"D:\PhD_main\chapter_2\outputs\damage_decomposition_sampled_FS\BC_decomposition_v1__B1_OSM_2D_COMBINEDCOST_MC_region_draws.csv"
-FILE_B4 = r"D:\PhD_main\chapter_2\outputs\damage_decomposition_sampled_FS\BC_decomposition_v1__B4_ADD_FLOORAREA_MC_region_draws.csv"
+FILE_B1 = "outputs/BC_decomposition_v1__B1_OSM_2D_COMBINEDCOST_MC_region_draws.csv"
+FILE_B4 = "outputs/BC_decomposition_v1__B4_ADD_FLOORAREA_MC_region_draws.csv"
 
-REGIONS_SHP = r"D:\PhD_main\chapter_1\data\regional_boundaries.shp"
+REGIONS_SHP = "data/regional_boundaries.shp"
 
-OUT_DIR = r"/figs/maps"
+OUT_DIR = "figs/maps"
 OUT_PNG = os.path.join(OUT_DIR, "4panel_regional_amplification_B1_to_B4_median.png")
 
 COST_COL_PREFS = ["dam_cost_ppp2024", "dam_cost_usd2024", "dam_cost"]
