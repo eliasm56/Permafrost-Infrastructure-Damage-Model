@@ -106,9 +106,9 @@ Each run produces **mean, minimum, and maximum damage estimates across hazard ma
 The Monte Carlo model produces the following output files:
 
 ```
-BC_risk_analysis_v3_uncert_netcdf__ALL_mean.csv
-BC_risk_analysis_v3_uncert_netcdf__ALL_min.csv
-BC_risk_analysis_v3_uncert_netcdf__ALL_max.csv
+BC_risk_analysis_v3_uncert_fields__ALL_mean.csv
+BC_risk_analysis_v3_uncert_fields__ALL_min.csv
+BC_risk_analysis_v3_uncert_fields__ALL_max.csv
 ```
 
 Additional files contain **Monte Carlo draw-level outputs** used for uncertainty analysis and figure generation.
@@ -273,10 +273,10 @@ pip install numpy pandas geopandas xarray
 Both scripts contain configuration sections defining the following paths:
 
 ```
-HAZARD_NC_DIR
-BUILDINGS_GPKG
-COST_CSV
-OUT_DIR
+BC_JOIN_CSV (building-level bearing capacity change stored in building_bc_change_by_hazard_map.csv)
+BUILDINGS_GPKG (building layer stored in HABITAT_OSM_bldgs_ADC.gpkg)
+COST_CSV (replacement costs stored in ACPR_Adm1_cost_inventory.csv)
+OUT_DIR (output directory)
 ```
 
 Update these paths to match the locations of the downloaded datasets.
