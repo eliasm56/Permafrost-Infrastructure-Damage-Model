@@ -197,7 +197,7 @@ bc_diff_ssp585_MPI_ESM1_2_HR_2055_2064_2015_2024_nomask
 bc_diff_ssp585_NorESM2_MM_2055_2064_2015_2024_nomask	
 bc_diff_ssp585_CESM2_WACCM_2055_2064_2015_2024
 
-Using the bldg_id field, a table join can be performed to merge these bearing capacity change values to their respective building footprints in the GeoPackage file "HABITAT_OSM_bldgs_ADC.gpkg" downloadable from the Arctic Data Center (https://arcticdata.io/catalog/view/doi%3A10.18739%2FA21R6N311). 
+Using the ```bldg_id field```, a table join is automatically performed in ```damage_model.py``` to merge these bearing capacity change values to their respective building footprints in the GeoPackage file "HABITAT_OSM_bldgs_ADC.gpkg" downloadable from the Arctic Data Center (https://arcticdata.io/catalog/view/doi%3A10.18739%2FA21R6N311). 
 
 
 ---
