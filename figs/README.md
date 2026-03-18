@@ -51,6 +51,10 @@ These files contain Monte Carlo simulation outputs used to generate:
 - exposure decomposition plots
 - regional damage amplification maps
 
+**OR**
+
+Run the damage model scripts as described to produce your own outputs, and use those instead if you would like.
+
 ---
 
 # Dependencies
