@@ -24,7 +24,7 @@ BUILDINGS_LAYER = "buildings"
 
 COST_CSV = "data/ACPR_Adm1_cost_inventory.csv"
 
-OUT_DIR = "outputs"
+OUT_DIR = "outputs/decomposition_results"
 OUT_BASE = "BC_decomposition_v1_fields"
 
 ALLOWED_COUNTRIES = {"CAN", "RUS", "USA"}
