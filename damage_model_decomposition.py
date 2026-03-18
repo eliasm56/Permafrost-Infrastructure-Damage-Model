@@ -18,13 +18,13 @@ import geopandas as gpd
 # =========================================================
 # INPUTS
 # =========================================================
-BC_JOIN_CSV = r"C:\Users\manos\Desktop\research\building_bc_change_by_hazard_map.csv"
-BUILDINGS_GPKG = r"C:\Users\manos\Desktop\research\HABITAT_OSM_bldgs_ADC.gpkg"
+BC_JOIN_CSV = "data/building_bc_change_by_hazard_map.csv"
+BUILDINGS_GPKG = "data/HABITAT_OSM_bldgs_ADC.gpkg"
 BUILDINGS_LAYER = "buildings"
 
-COST_CSV = r"C:\Users\manos\Desktop\research\ACPR_Adm1_cost_inventory.csv"
+COST_CSV = "data/ACPR_Adm1_cost_inventory.csv"
 
-OUT_DIR = r"C:\Users\manos\Desktop\research\outputs"
+OUT_DIR = "outputs"
 OUT_BASE = "BC_decomposition_v1_fields"
 
 ALLOWED_COUNTRIES = {"CAN", "RUS", "USA"}
