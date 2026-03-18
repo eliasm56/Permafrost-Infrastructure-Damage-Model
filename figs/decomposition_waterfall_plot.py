@@ -19,11 +19,11 @@ import matplotlib.pyplot as plt
 # =========================
 # PATHS
 # =========================
-OUT_DIR  = r"D:\PhD_main\chapter_2\outputs\damage_decomposition_sampled_FS"
-FIG_DIR  = r"/figs"
+OUT_DIR  = "outputs/decomposition_results/"
+FIG_DIR  = "figs"
 
 # Full model (ALL) MC draws (country totals)
-FULL_ALL_MC_COUNTRY = r"D:\PhD_main\chapter_2\outputs\damage_model_w_uncertainty\BC_risk_analysis_v3_uncert_netcdf__ALL_MC_country_draws.csv"
+FULL_ALL_MC_COUNTRY = "damage_results/BC_risk_analysis_v3_uncert_netcdf__ALL_MC_country_draws.csv"
 
 # =========================
 # INPUT FILES FOR BLOCKS (MC COUNTRY DRAWS)
